@@ -16,6 +16,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       :host {
         display: block;
       }
+      .cityData{
+        margin-bottom: 15px;
+        padding: 30px 24px;
+      }
     </style>
     <iron-ajax
     auto
@@ -36,7 +40,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <span>{{ajaxResponse.cod}}</span><br/>
     </paper-material>
       <template is="dom-repeat" items="{{ajaxResponse.list}}">
-        <paper-material class="cityData" elevation="3">
+        <paper-material class="cityData" elevation="1">
           <span>{{item.dt}}</span><br/>
           <span>{{item.dt_txt}}</span><br/>
           <span>{{item.main.temp}}</span><br/>
