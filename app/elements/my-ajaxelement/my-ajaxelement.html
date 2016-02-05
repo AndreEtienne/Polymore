@@ -20,7 +20,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <iron-ajax
     auto
     url="http://api.openweathermap.org/data/2.5/forecast"
-    params='{"q":"California", "cnt":"7", "appid":"44db6a862fba0b067b1930da0d769e98"}'
+    params='{"q":"74379", "cnt":"20", "appid":"44db6a862fba0b067b1930da0d769e98"}'
     handle-as="json"
     on-response="handleResponse"
     last-response="{{ajaxResponse}}">
@@ -38,6 +38,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <template is="dom-repeat" items="{{ajaxResponse.list}}">
         <paper-material class="cityData" elevation="3">
           <span>{{item.dt}}</span><br/>
+          <span>{{item.dt_txt}}</span><br/>
           <span>{{item.main.temp}}</span><br/>
            <template is="dom-repeat" items="{{item.weather}}">
              Condition: <span>{{item.main}}</span><br/>
