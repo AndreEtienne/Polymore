@@ -9,9 +9,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
 
 <dom-module id="my-ajaxelement">
-  <template>
+
     <style>
       :host {
         display: block;
@@ -21,6 +22,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         padding: 30px 24px;
       }
     </style>
+    <template>
     <iron-ajax
     auto
     url="http://api.openweathermap.org/data/2.5/forecast"
@@ -39,6 +41,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       Messeage: <span>{{ajaxResponse.message}}</span><br/>
       <span>{{ajaxResponse.cod}}</span><br/>
     </paper-material>
+  <section class="layout horizontal wrap ">
       <template is="dom-repeat" items="{{ajaxResponse.list}}">
         <paper-material class="cityData" elevation="1">
           <span>{{item.dt}}</span><br/>
@@ -50,6 +53,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </template>
      </paper-material>
      </template>
+      </sectiont>
 
   </template>
   <script>
