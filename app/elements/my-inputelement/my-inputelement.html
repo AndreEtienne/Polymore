@@ -17,9 +17,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: block;
       }
     </style>
-    Please enter here<input is="iron-input" value="{{value::input}}">
+    Please enter here<input is="iron-input"  bind-value="{{bindValue}}" value="{{value::input}}">
     <br>output:{{value}}
-    <paper-button id="my-paperbutton" class="" on-click="updateValue">Update Value</paper-button>
+    <br> Output Bind Value:{{bindValue}}
+    <br>
+    <paper-button  class="my-button" on-click="updateValue">Update Value</paper-button>
+    <paper-button  class="my-button" on-click="updateBindValue">Update Bind Value</paper-button>
+
+
+    <input is="iron-input" allowed-pattern="[!@#$%^]" prevent-invalid-input>
+
 
   </template>
   <script>
@@ -38,6 +45,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
       updateValue: function(){
         document.querySelector("input[is=iron-input]").value = "Nike";
+      },
+      updateBindValue: function(){
+        document.querySelector("input[is=iron-input]").bindValue = "Binded Nike Value";
       }
     });
   })();
