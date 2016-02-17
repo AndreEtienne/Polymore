@@ -20,6 +20,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         margin-bottom: 15px;
         padding: 30px 24px;
       }
+      .my-slider{
+        width: 100%;
+      }
     </style>
     <iron-ajax
         id="weather"
@@ -34,7 +37,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <paper-material class="headMaterial cityData"  elevation="3">
       <paper-input is="iron-input" bind-value="{{cityName}}"></paper-input>
        <paper-button on-click="updateWeather" raised>Serach</paper-button>
-      <paper-slider id="ratings" pin="" snaps="" max="10" max-markers="10" step="1" value="5" role="slider" tabindex="0" aria-disabled="false" aria-valuemin="undefined" aria-valuemax="undefined" aria-valuenow="5" ></paper-slider>
+      <paper-slider class="my-slider" id="paper-slider" value="0" max="20" step="1" pin snaps max-markers="20" ></paper-slider>
     </paper-material>
 
 
@@ -91,12 +94,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       console.log('handleResponse');
       },
       updateWeather: function(){
+        var noOfDaysOfForecast = document.getElementById("paper-slider").value;
         document.getElementById("weather").generateRequest();
         var cityName = document.querySelector("input[is=iron-input]").value;
 
         this.weatherParams = {
           q: cityName,
-          cnt: "20",
+          cnt: noOfDaysOfForecast,
           appid: "44db6a862fba0b067b1930da0d769e98"
         }
 
