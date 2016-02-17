@@ -4,7 +4,12 @@
     <meta charset="UTF-8">
     <title>Polymore</title>
   <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
+
   <link rel="import" href="elements/elements.html">
+  <link rel="stylesheet" href="styles/main.css">
+ <!-- For shared styles, shared-styles.html import in elements.html -->
+  <style is="custom-style" include="shared-styles"></style>
+</head>
 <body class="fullbleed vertical layout">
 <span id="browser-sync-binding"></span>
   <paper-drawer-panel class="flex">
@@ -13,7 +18,17 @@
         <div>Page</div>
       </paper-toolbar>
       <div>
-        <a></a>
+        <paper-material>
+        <a data-route="home" href="/">Home</a>
+          </paper-material>
+        <paper-material>
+          <a data-route="users" href="/users">Users</a>
+          </paper-material>
+        <paper-material>
+           <a data-route="contact" href="/contact">Contact</a>
+          </paper-material>
+
+
       </div>
     </paper-header-panel>
     <paper-header-panel main>
@@ -21,10 +36,8 @@
         <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
         <div>Polymore</div>
       </paper-toolbar>
-      <div>
-        <paper-material>
-    <my-ajaxelement></my-ajaxelement>
-      </paper-material>
+      <div class="container">
+        <my-ajaxelement></my-ajaxelement>
       </div>
     </paper-header-panel>
   </paper-drawer-panel>
