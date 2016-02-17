@@ -31,10 +31,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </iron-ajax>
 
     <paper-material class="headMaterial cityData">
-      <input is="iron-input" bind-value="{{cityName}}">
+      <paper-input is="iron-input" bind-value="{{cityName}}"></paper-input>
       <br/>
       <b>{{cityName}}</b>
+       <paper-button raised>Serach</paper-button>
     </paper-material>
+
 
     <paper-material class="cityData" elevation="3">
       ID: <span>{{ajaxResponse.city.id}}</span><br/>
