@@ -54,8 +54,6 @@
         <paper-material>
            <a data-route="contact" href="/contact">Contact</a>
           </paper-material>
-
-
       </div>
     </paper-header-panel>
     <paper-header-panel main>
@@ -63,9 +61,16 @@
         <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
         <div>Polymore</div>
       </paper-toolbar>
-      <div class="container">
+      <iron-pages attr-for-selected="data-route" selected="{{route}}">
+      <section data-route="home">
+        <div class="container">
         <my-ajaxelement></my-ajaxelement>
       </div>
+      </section>
+        <section data-route="users">users</section>
+        <section data-route="contact">contact</section>
+        </iron-pages>
+
     </paper-header-panel>
   </paper-drawer-panel>
   </template>
