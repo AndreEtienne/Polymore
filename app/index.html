@@ -5,18 +5,40 @@
     <title>Polymore</title>
   <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
   <link rel="import" href="elements/elements.html">
-</head>
-<body>
-
-  <div id="mainContainer">
-    <span id="browser-sync-binding"></span>
-    <paper-material>
-      <h1>Polymore</h1>
-    </paper-material>
-    <paper-material>
+<body class="fullbleed vertical layout">
+<span id="browser-sync-binding"></span>
+  <paper-drawer-panel class="flex">
+    <paper-header-panel drawer>
+      <paper-toolbar>
+        <div>Page</div>
+      </paper-toolbar>
+      <div>
+        <a></a>
+      </div>
+    </paper-header-panel>
+    <paper-header-panel main>
+      <paper-toolbar>
+        <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
+        <div>Polymore</div>
+      </paper-toolbar>
+      <div>
+        <paper-material>
     <my-ajaxelement></my-ajaxelement>
       </paper-material>
-  </div>
-
+      </div>
+    </paper-header-panel>
+  </paper-drawer-panel>
 </body>
+  <!--<div id="mainContainer">-->
+    <!--<span id="browser-sync-binding"></span>-->
+    <!--<paper-material>-->
+      <!--<h1>Polymore</h1>-->
+    <!--</paper-material>-->
+    <!--<my-ironpage></my-ironpage>-->
+    <!--<paper-material>-->
+    <!--<my-ajaxelement></my-ajaxelement>-->
+      <!--</paper-material>-->
+  <!--</div>-->
+
+
 </html>
