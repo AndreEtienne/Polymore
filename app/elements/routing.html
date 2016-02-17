@@ -33,9 +33,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }
 
     // Routes
-//    page('*', scrollToTop, closeDrawer, function(ctx, next) {
-//      next();
-//    });
+    page('*', function(ctx, next) {
+      next();
+    });
 
     page('/', function() {
       console.log("url -> /         home");
