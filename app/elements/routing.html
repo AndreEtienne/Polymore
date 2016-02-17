@@ -21,11 +21,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       page.base(app.baseUrl.replace(/\/$/, ''));
     }
 
-    // Middleware
-    function scrollToTop(ctx, next) {
-      app.scrollPageToTop();
-      next();
-    }
+//    // Middleware
+//    function scrollToTop(ctx, next) {
+//      app.scrollPageToTop();
+//      next();
+//    }
 
     function closeDrawer(ctx, next) {
       app.closeDrawer();
@@ -33,9 +33,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }
 
     // Routes
-    page('*', scrollToTop, closeDrawer, function(ctx, next) {
-      next();
-    });
+//    page('*', scrollToTop, closeDrawer, function(ctx, next) {
+//      next();
+//    });
 
     page('/', function() {
       console.log("url -> /         home");
