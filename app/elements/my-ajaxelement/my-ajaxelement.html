@@ -22,9 +22,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     </style>
     <iron-ajax
+        id="weather"
         auto
         url="http://api.openweathermap.org/data/2.5/forecast"
-        params='{"q":"74379", "cnt":"20", "appid":"44db6a862fba0b067b1930da0d769e98"}'
+        params="{{weatherParams}}"
         handle-as="json"
         on-response="handleResponse"
         last-response="{{ajaxResponse}}">
@@ -33,8 +34,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <paper-material class="headMaterial cityData">
       <paper-input is="iron-input" bind-value="{{cityName}}"></paper-input>
       <br/>
-      <b>{{cityName}}</b>
-       <paper-button raised>Serach</paper-button>
+       <paper-button on-click="updateWeather" raised>Serach</paper-button>
     </paper-material>
 
 
@@ -73,12 +73,34 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           type: String,
           value: 'hallo',
           notify: true
-        }
+        },
+        weatherParams:{
+          type: Object,
+          value: function(){
+              return {
+                q: "New York",
+                cnt: "20",
+                appid: "44db6a862fba0b067b1930da0d769e98"
+              }
+        },
+        notify: true
+      }
       },
+
       handleResponse: function(){
       console.log('handleResponse');
-      }
+      },
+      updateWeather: function(){
+        document.getElementById("weather").generateRequest();
+        var cityName = document.querySelector("input[is=iron-input]").value;
 
+        this.weatherParams = {
+          q: cityName,
+          cnt: "20",
+          appid: "44db6a862fba0b067b1930da0d769e98"
+        }
+
+      },
     });
   })();
   </script>
