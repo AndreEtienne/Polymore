@@ -31,10 +31,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         last-response="{{ajaxResponse}}">
     </iron-ajax>
 
-    <paper-material class="headMaterial cityData">
+    <paper-material class="headMaterial cityData"  elevation="3">
       <paper-input is="iron-input" bind-value="{{cityName}}"></paper-input>
-      <br/>
        <paper-button on-click="updateWeather" raised>Serach</paper-button>
+      <paper-slider id="ratings" pin="" snaps="" max="10" max-markers="10" step="1" value="5" role="slider" tabindex="0" aria-disabled="false" aria-valuemin="undefined" aria-valuemax="undefined" aria-valuenow="5" ></paper-slider>
     </paper-material>
 
 
