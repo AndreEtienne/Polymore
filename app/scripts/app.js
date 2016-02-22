@@ -16,13 +16,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   var app = document.querySelector('#app');
 
   // Sets app default base URL
-  app.baseUrl = '/Polymore/';
+  app.baseUrl = '/';
   console.log(window.location.port);
-  //if (window.location.port === '5000') {  // if production
-    // Uncomment app.baseURL below and
-    // set app.baseURL to '/your-pathname/' if running from folder in production
-    // app.baseUrl = '/';
- // }
+  if (window.location.port === '') {  // if production
+     app.baseUrl = '/Polymore/';
+  }
 
   app.displayInstalledToast = function() {
     // Check to make sure caching is actually enabled—it won't be in the dev environment.
@@ -71,12 +69,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   });
 
   // Scroll page to top and expand header
-  app.scrollPageToTop = function() {
-    app.$.headerPanelMain.scrollToTop(true);
-  };
-
-  app.closeDrawer = function() {
-    app.$.paperDrawerPanel.closeDrawer();
-  };
+  //app.scrollPageToTop = function() {
+  //  app.$.headerPanelMain.scrollToTop(true);
+  //};
+  //
+  //app.closeDrawer = function() {
+  //  app.$.paperDrawerPanel.closeDrawer();
+  //};
 
 })(document);
