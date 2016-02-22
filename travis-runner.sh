@@ -14,7 +14,7 @@ then
     # Deploying to GitHub Pages! (http://polymerelements.github.io/polymer-starter-kit)
     echo Deploying to GitHub Pages
     sed -i.tmp "s/\/\/ app.baseUrl = '\/polymer-starter-kit/app.baseUrl = '\/polymer-starter-kit/" app/scripts/app.js
-    sed -i.tmp2 "s/<\/head>/\  \<script>'https:'!==window.location.protocol\&\&(window.location.protocol='https')<\/script>&/g" app/index.html
+#    sed -i.tmp2 "s/<\/head>/\  \<script>'https:'!==window.location.protocol\&\&(window.location.protocol='https')<\/script>&/g" app/index.html
     gulp build-deploy-gh-pages
     # Undoing Changes to PSK for GitHub Pages
     cp app/scripts/app.js.tmp app/scripts/app.js
