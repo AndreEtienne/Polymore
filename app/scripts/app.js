@@ -16,7 +16,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   var app = document.querySelector('#app');
 
   // Sets app default base URL
-  app.baseUrl = '/';
+  app.baseUrl = '';
   console.log(window.location.port);
   if (window.location.port === '') {  // if production
      app.baseUrl = '/Polymore/';
