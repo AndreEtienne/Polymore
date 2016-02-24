@@ -1,0 +1,125 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/firebase-element/firebase-auth.html">
+<dom-module id="firebase-logout-button">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <firebase-auth id="firebaseLogin" user="{{user}}" status-known="{{statusKnown}}" location="https://polymorefoot.firebaseio.com" provider="{{provider}}" on-error="errorHandler" on-user-created="userSuccessHandler" on-password-changed="userSuccessHandler" on-password-reset="userSuccessHandler" on-user-removed="userSuccessHandler"></firebase-auth>
+    <paper-button raised  on-tap="logout" hidden$="{{computeLogoutHidden(statusKnown, user)}}">Logout</paper-button>
+  </template>
+
+  <script>
+  Polymer({
+    is: 'firebase-logout-button',
+    properties: {
+      provider: {
+        type: String,
+        value: 'anonymous'
+      },
+      message: {
+        type: String,
+        value: ''
+      },
+      email: {
+        type: String,
+        value: ''
+      },
+      password: {
+        type: String,
+        value: ''
+      },
+      user: {
+        type: Object,
+        value: null
+      },
+      statusKnown: {
+        type: Boolean
+      }
+    },
+    login: function() {
+      var params;
+      try {
+        params = JSON.parse(this.params);
+      } catch (e) {
+        params = null;
+      }
+      if (this.provider == 'password') {
+        params = params || {};
+        params.email = this.email;
+        params.password = this.password;
+      }
+      this.$.firebaseLogin.login(params);
+    },
+    logout: function() {
+      this.$.firebaseLogin.logout();
+       page.redirect(page.current);
+        location.reload();
+
+    },
+    errorHandler: function(e) {
+      this.message = 'Error: ' + e.detail.message;
+    },
+    userSuccessHandler: function(e) {
+      this.message = e.type + ' success!';
+    },
+    createUserHandler: function(e) {
+      this.$.firebaseLogin.createUser(this.email, this.password);
+    },
+    changePasswordHandler: function(e) {
+      this.$.firebaseLogin.changePassword(this.email, this.password, this.newPassword);
+    },
+    resetPasswordHandler: function(e) {
+      this.$.firebaseLogin.sendPasswordResetEmail(this.email);
+    },
+    removeUserHandler: function(e) {
+      this.$.firebaseLogin.removeUser(this.email, this.password);
+    },
+    computePasswordHidden: function(provider) {
+      return provider !== 'password';
+    },
+    computeCreateUserDisabled: function(email, password) {
+      return !email || !password;
+    },
+    computeChangePasswordDisabled: function(email, password, newPassword) {
+      return !email || !password || !newPassword;
+    },
+    computeResetPasswordDisabled: function(email, password) {
+      return !email || !password;
+    },
+    computeRemoveUserDisabled: function(email, password) {
+      return !email || !password;
+    },
+    computeLoginHidden: function(statusKnown, user) {
+      return !statusKnown || !!user;
+    },
+    computeLogoutHidden: function(statusKnown, user) {
+      return !statusKnown || !user;
+    },
+    computeLoginStatus: function(statusKnown, user) {
+      if (statusKnown && user) {
+        this.set('isLoggedIn',user.uid);
+        return 'Logged in';
+      }
+      if (statusKnown) {
+
+
+        return 'Logged out';
+      }
+      return 'Unknown (checking status...)';
+    }
+  });
+  </script>
+</dom-module>
