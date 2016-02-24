@@ -199,6 +199,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <!-- Main Content -->
         <div class="content">
           <iron-pages attr-for-selected="data-route" selected="{{route}}">
+
+          <section data-route="login">
+                <auth-firebase></auth-firebase>
+            </section>
             <section data-route="home" tabindex="-1">
               <my-ajaxelement></my-ajaxelement>
             </section>

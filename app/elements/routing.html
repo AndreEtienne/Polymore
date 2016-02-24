@@ -15,7 +15,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     // We use Page.js for routing. This is a Micro
     // client-side router inspired by the Express router
     // More info: https://visionmedia.github.io/page.js/
+function updateRoute(route, fullRoute, params, breadcrumb) {
+        app.set('route', route);
 
+        fullRoute.push(route);
+        app.set('fullRoute', fullRoute);
+
+        if (params) {
+            app.set('params', params);
+        } else {
+            app.set('params', {});
+        }
+
+        app.set('routed', true);
+
+        if (!breadcrumb) {
+            breadcrumb = [{ title: 'ATML3 Training Wizard' }];
+        }
+        app.set('breadcrumb', breadcrumb);
+    }
     // Removes end / from app.baseUrl which page.base requires for production
     if (window.location.port === '') {  // if production
       page.base(app.baseUrl.replace(/\/$/, ''));
@@ -38,11 +56,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     // Routes
     page('*', closeDrawer, function(ctx, next) {
-      next();
+       app.set('route', null);
+            var isLoggedIn = new Polymer.IronMetaQuery({key: 'ax-loggedin'}).value;
+            if (isLoggedIn || ctx.path === '/login') {
+                next();
+            } else {
+                page.redirect('/login'); // Changes the URL
+                updateRoute('login', []); // Changes the displayed page
+            }
     });
 
     page('/', function() {
-      app.route = 'home';
+      updateRoute('home', []);
       setFocus(app.route);
     });
 
@@ -54,6 +79,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     page('/users', function() {
       app.route = 'users';
       setFocus(app.route);
+    });
+    page('/login', function(){
+      var isLoggedIn = new Polymer.IronMetaQuery({key: 'ax-loggedin'}).value;
+            if (isLoggedIn) {
+                page.redirect('/'); // Changes the URL
+                updateRoute('home', []); // Changes the displayed page
+            } else {
+                updateRoute('login', []);
+            }
     });
 
     page('/users/:name', function(data) {
