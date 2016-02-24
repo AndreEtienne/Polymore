@@ -140,7 +140,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <!-- Because this project uses vulcanize this should be your only html import
        in this file. All other imports should go in elements.html -->
   <link rel="import" href="elements/elements.html">
-
+<link rel="import" href="../../bower_components/firebase-element/firebase-auth.html">
   <!-- For shared styles, shared-styles.html import in elements.html -->
   <style is="custom-style" include="shared-styles"></style>
 </head>
@@ -148,7 +148,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <body unresolved>
   <span id="browser-sync-binding"></span>
   <template is="dom-bind" id="app">
-
+      <iron-meta key="fire-tok" value="{{isLoggedIn}}"></iron-meta>
     <paper-drawer-panel id="paperDrawerPanel">
       <!-- Drawer Scroll Header Panel -->
       <paper-scroll-header-panel drawer fixed>
@@ -208,14 +208,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </section>
 
             <section data-route="users" tabindex="-1">
-
+              <paper-material>hallo</paper-material>
             </section>
-
-            <section data-route="user-info" tabindex="-1">
-            </section>
-
             <section data-route="contact" tabindex="-1">
-
+              <paper-material>hallo</paper-material>
             </section>
           </iron-pages>
         </div>
@@ -249,6 +245,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <!-- build:js scripts/app.js -->
   <script src="scripts/app.js"></script>
   <!-- endbuild-->
+
+    // auto-binding template is ready.
+
+
 </body>
 
 </html>

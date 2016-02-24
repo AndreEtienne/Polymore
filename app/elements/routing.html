@@ -55,9 +55,13 @@ function updateRoute(route, fullRoute, params, breadcrumb) {
     }
 
     // Routes
-    page('*', closeDrawer, function(ctx, next) {
-       app.set('route', null);
-            var isLoggedIn = new Polymer.IronMetaQuery({key: 'ax-loggedin'}).value;
+    page('*', closeDrawer, function(ctx, next, user) {
+        var isLoggedIn = new Polymer.IronMetaQuery({key: 'fire-tok'}).value;
+      console.log(isLoggedIn);
+//       if(localStorage.getItem('firebase:session::polymorefoot')){
+//         var isLoggedIn = true;
+//       }
+      console.log(isLoggedIn);
             if (isLoggedIn || ctx.path === '/login') {
                 next();
             } else {
@@ -81,7 +85,11 @@ function updateRoute(route, fullRoute, params, breadcrumb) {
       setFocus(app.route);
     });
     page('/login', function(){
-      var isLoggedIn = new Polymer.IronMetaQuery({key: 'ax-loggedin'}).value;
+//       if(localStorage.getItem('firebase:session::polymorefoot')){
+//         var isLoggedIn = true;
+//       }
+      var isLoggedIn = new Polymer.IronMetaQuery({key: 'fire-tok'}).value;
+      console.log(isLoggedIn);
             if (isLoggedIn) {
                 page.redirect('/'); // Changes the URL
                 updateRoute('home', []); // Changes the displayed page
