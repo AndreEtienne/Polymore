@@ -64,7 +64,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <template is="dom-bind" id="app">
     <paper-drawer-panel id="paperDrawerPanel">
 
-
+ <template is="dom-if" if="{{user}}">
       <!-- Drawer Scroll Header Panel -->
       <paper-scroll-header-panel drawer fixed>
 
@@ -93,10 +93,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <firebase-logout-button></firebase-logout-button>
         </paper-menu>
       </paper-scroll-header-panel>
+</template>
 
       <!-- Main Area -->
+
       <paper-scroll-header-panel main id="headerPanelMain" condenses keep-condensed-header>
-        <!-- Main Toolbar -->
+        <template is="dom-if" if="{{user}}">
         <paper-toolbar id="mainToolbar" class="tall">
           <paper-icon-button id="paperToggle" icon="menu" paper-drawer-toggle></paper-icon-button>
 
@@ -112,20 +114,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <div class="bottom-title">The future of the web today</div>
           </div>
         </paper-toolbar>
-
+        </template>
         <!-- Main Content -->
         <div class="content">
           <iron-pages attr-for-selected="data-route" selected="{{route}}">
 
-          <section data-route="login">
-
+             <section data-route="login">
                 <auth-firebase></auth-firebase>
             </section>
             <section data-route="home" tabindex="-1">
               hallo {{user.uid}}
               <my-ajaxelement></my-ajaxelement>
             </section>
-
             <section data-route="users" tabindex="-1">
               <paper-material>hallo</paper-material>
             </section>
@@ -162,9 +162,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </template>
   <!-- build:js scripts/app.js -->
   <script src="scripts/app.js"></script>
-  <!-- endbuild-->
 
-    // auto-binding template is ready.
 
 
 </body>

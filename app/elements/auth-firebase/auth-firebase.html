@@ -15,6 +15,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/classes/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/paper-spinner/paper-spinner-styles.html">
+<link rel="import" href="../../bower_components/paper-spinner/paper-spinner-lite.html">
+<link rel="import" href="../../bower_components/paper-spinner/paper-spinner.html">
 
 
 <dom-module id="auth-firebase" is="dom-if" if="{{!isLoggedIn}}">
@@ -24,7 +28,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: block;
       }
     </style>
-    <paper-material>
+
+
+    <div class="horizontal center-justified layout">
+    <paper-material style="width: 50%;">
     <iron-meta key="userloged" value="{{user}}"></iron-meta>
     <iron-meta key="fire-tok" value="{{isLoggedIn}}"></iron-meta>
     <firebase-auth id="firebaseLogin" user="{{user}}" status-known="{{statusKnown}}" location="https://polymorefoot.firebaseio.com" provider="{{provider}}" on-error="errorHandler" on-user-created="userSuccessHandler" on-password-changed="userSuccessHandler" on-password-reset="userSuccessHandler" on-user-removed="userSuccessHandler"></firebase-auth>
@@ -34,7 +41,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <paper-item name="password" >Password</paper-item>
       </paper-listbox>
     </paper-dropdown-menu>
-
+   <paper-spinner active></paper-spinner>
     <!--<em>Only 'anonymous', 'google', and 'password' are activated for demo Firebase account</em>-->
     <br>
 
@@ -70,6 +77,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <!--<pre>{{user.google.displayName}}</pre>-->
     <!--<img src="{{user.google.profileImageURL}}">-->
       </paper-material>
+      </div>
+
   </template>
   <script>
   Polymer({
