@@ -53,6 +53,8 @@ function updateRoute(route, fullRoute, params, breadcrumb) {
 
         var isLoggedIn = new Polymer.IronMetaQuery({key: 'fire-tok'}).value;
 
+
+
             if (isLoggedIn || ctx.path === '/login') {
                 next();
             } else {
