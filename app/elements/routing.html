@@ -26,13 +26,7 @@ function updateRoute(route, fullRoute, params, breadcrumb) {
         } else {
             app.set('params', {});
         }
-
         app.set('routed', true);
-
-        if (!breadcrumb) {
-            breadcrumb = [{ title: 'ATML3 Training Wizard' }];
-        }
-        app.set('breadcrumb', breadcrumb);
     }
     // Removes end / from app.baseUrl which page.base requires for production
     if (window.location.port === '') {  // if production
@@ -56,12 +50,9 @@ function updateRoute(route, fullRoute, params, breadcrumb) {
 
     // Routes
     page('*', closeDrawer, function(ctx, next, user) {
+
         var isLoggedIn = new Polymer.IronMetaQuery({key: 'fire-tok'}).value;
-      console.log(isLoggedIn);
-//       if(localStorage.getItem('firebase:session::polymorefoot')){
-//         var isLoggedIn = true;
-//       }
-      console.log(isLoggedIn);
+
             if (isLoggedIn || ctx.path === '/login') {
                 next();
             } else {
@@ -89,7 +80,7 @@ function updateRoute(route, fullRoute, params, breadcrumb) {
 //         var isLoggedIn = true;
 //       }
       var isLoggedIn = new Polymer.IronMetaQuery({key: 'fire-tok'}).value;
-      console.log(isLoggedIn);
+
             if (isLoggedIn) {
                 page.redirect('/'); // Changes the URL
                 updateRoute('home', []); // Changes the displayed page
@@ -99,12 +90,15 @@ function updateRoute(route, fullRoute, params, breadcrumb) {
     });
 
     page('/users/:name', function(data) {
+
       app.route = 'user-info';
       app.params = data.params;
+
       setFocus(app.route);
     });
 
-    page('/contact', function() {
+    page('/contact', function(data) {
+
       app.route = 'contact';
       setFocus(app.route);
     });

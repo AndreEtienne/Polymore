@@ -33,6 +33,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         on-response="handleResponse"
         last-response="{{ajaxResponse}}">
     </iron-ajax>
+    <iron-meta id="userloged"></iron-meta>
     <paper-material class="headMaterial cityData"  elevation="3">
       <paper-input is="iron-input" bind-value="{{cityName}}"></paper-input>
        <paper-button on-click="updateWeather" raised>Serach</paper-button>
@@ -41,6 +42,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
     <paper-material class="cityData" elevation="3">
+
       ID: <span>{{ajaxResponse.city.id}}</span><br/>
       NAME: <span>{{ajaxResponse.city.name}}</span><br/>
       LONG: <span>{{ajaxResponse.city.coord.lon}}</span><br/>

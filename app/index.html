@@ -1,89 +1,3 @@
-<!--<!DOCTYPE html>-->
-<!--<html lang="en">-->
-<!--<head>-->
-    <!--<meta charset="UTF-8">-->
-    <!--<title>Polymore</title><meta charset="utf-8">-->
-      <!--<meta name="description" content="">-->
-      <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
-      <!--<meta name="generator" content="Polymore">-->
-      <!--<title>Polymore</title>-->
-
-      <!--&lt;!&ndash; Place favicon.ico in the `app/` directory &ndash;&gt;-->
-
-      <!--&lt;!&ndash; Chrome for Android theme color &ndash;&gt;-->
-      <!--<meta name="theme-color" content="#2E3AA1">-->
-
-      <!--&lt;!&ndash; Web Application Manifest &ndash;&gt;-->
-      <!--<link rel="manifest" href="manifest.json">-->
-
-      <!--&lt;!&ndash; Tile color for Win8 &ndash;&gt;-->
-      <!--<meta name="msapplication-TileColor" content="#3372DF">-->
-
-      <!--&lt;!&ndash; Add to homescreen for Chrome on Android &ndash;&gt;-->
-      <!--<meta name="mobile-web-app-capable" content="yes">-->
-      <!--<meta name="application-name" content="PSK">-->
-      <!--<link rel="icon" sizes="192x192" href="images/touch/chrome-touch-icon-192x192.png">-->
-
-      <!--&lt;!&ndash; Add to homescreen for Safari on iOS &ndash;&gt;-->
-      <!--<meta name="apple-mobile-web-app-capable" content="yes">-->
-      <!--<meta name="apple-mobile-web-app-status-bar-style" content="black">-->
-      <!--<meta name="apple-mobile-web-app-title" content="Polymer Starter Kit">-->
-
-  <!--<script src="bower_components/webcomponentsjs/webcomponents.js"></script>-->
-
-  <!--<link rel="import" href="elements/elements.html">-->
-  <!--<link rel="stylesheet" href="styles/main.css">-->
- <!--&lt;!&ndash; For shared styles, shared-styles.html import in elements.html &ndash;&gt;-->
-  <!--<style is="custom-style" include="shared-styles"></style>-->
-<!--</head>-->
-<!--<body class="fullbleed vertical layout">-->
-<!--<span id="browser-sync-binding"></span>-->
-<!--<template is="dom-bind" id="app">-->
-  <!--<paper-drawer-panel class="flex">-->
-    <!--<paper-header-panel drawer>-->
-      <!--<paper-toolbar>-->
-        <!--<div>Page</div>-->
-      <!--</paper-toolbar>-->
-         <!--<paper-menu attr-for-selected="data-route" selected="[[route]]">-->
-        <!--<a data-route="home" href="{{baseUrl}}">Home</a>-->
-          <!--<a data-route="users" href="{{baseUrl}}/users">Users</a>-->
-           <!--<a data-route="contact" href="{{baseUrl}}/contact">Contact</a>-->
-       <!--</paper-menu>-->
-    <!--</paper-header-panel>-->
-    <!--<paper-header-panel main>-->
-      <!--<paper-toolbar>-->
-        <!--<paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>-->
-        <!--<div>Polymore</div>-->
-      <!--</paper-toolbar>-->
-      <!--<iron-pages attr-for-selected="data-route" selected="{{route}}">-->
-      <!--<section data-route="home">-->
-        <!--<div class="container">-->
-        <!--<my-ajaxelement></my-ajaxelement>-->
-      <!--</div>-->
-      <!--</section>-->
-        <!--<section data-route="users">users</section>-->
-        <!--<section data-route="contact">contact</section>-->
-        <!--</iron-pages>-->
-
-    <!--</paper-header-panel>-->
-  <!--</paper-drawer-panel>-->
-  <!--</template>-->
-<!--</body>-->
-  <!--&lt;!&ndash;<div id="mainContainer">&ndash;&gt;-->
-    <!--&lt;!&ndash;<span id="browser-sync-binding"></span>&ndash;&gt;-->
-    <!--&lt;!&ndash;<paper-material>&ndash;&gt;-->
-      <!--&lt;!&ndash;<h1>Polymore</h1>&ndash;&gt;-->
-    <!--&lt;!&ndash;</paper-material>&ndash;&gt;-->
-    <!--&lt;!&ndash;<my-ironpage></my-ironpage>&ndash;&gt;-->
-    <!--&lt;!&ndash;<paper-material>&ndash;&gt;-->
-    <!--&lt;!&ndash;<my-ajaxelement></my-ajaxelement>&ndash;&gt;-->
-      <!--&lt;!&ndash;</paper-material>&ndash;&gt;-->
-  <!--&lt;!&ndash;</div>&ndash;&gt;-->
-
-  <!--&lt;!&ndash; build:js scripts/app.js &ndash;&gt;-->
-  <!--<script src="scripts/app.js"></script>-->
-  <!--&lt;!&ndash; endbuild&ndash;&gt;-->
-<!--</html>-->
 <!doctype html>
 <!--
 @license
@@ -148,13 +62,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <body unresolved>
   <span id="browser-sync-binding"></span>
   <template is="dom-bind" id="app">
-      <iron-meta key="fire-tok" value="{{isLoggedIn}}"></iron-meta>
     <paper-drawer-panel id="paperDrawerPanel">
+
+
       <!-- Drawer Scroll Header Panel -->
       <paper-scroll-header-panel drawer fixed>
 
         <!-- Drawer Toolbar -->
         <paper-toolbar id="drawerToolbar">
+
           <span class="menu-name">Menu</span>
         </paper-toolbar>
 
@@ -167,7 +83,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           <a data-route="users" href="{{baseUrl}}users">
             <iron-icon icon="info"></iron-icon>
-            <span>Users</span>
+            <span>      {{user.uid}} </span>
           </a>
 
           <a data-route="contact" href="{{baseUrl}}contact">
@@ -202,9 +118,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <iron-pages attr-for-selected="data-route" selected="{{route}}">
 
           <section data-route="login">
+
                 <auth-firebase></auth-firebase>
             </section>
             <section data-route="home" tabindex="-1">
+              hallo {{user.uid}}
               <my-ajaxelement></my-ajaxelement>
             </section>
 
@@ -242,7 +160,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     -->
 
   </template>
-
   <!-- build:js scripts/app.js -->
   <script src="scripts/app.js"></script>
   <!-- endbuild-->
