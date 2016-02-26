@@ -10,6 +10,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/firebase-element/firebase-auth.html">
+<link rel="import" href="../../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+
+
 <dom-module id="auth-firebase" is="dom-if" if="{{!isLoggedIn}}">
   <template>
     <style>
@@ -21,41 +28,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <iron-meta key="fire-tok" value="{{isLoggedIn}}"></iron-meta>
     <firebase-auth id="firebaseLogin" user="{{user}}" status-known="{{statusKnown}}" location="https://polymorefoot.firebaseio.com" provider="{{provider}}" on-error="errorHandler" on-user-created="userSuccessHandler" on-password-changed="userSuccessHandler" on-password-reset="userSuccessHandler" on-user-removed="userSuccessHandler"></firebase-auth>
-
-    Provider type:
-      <paper-dropdown-menu value="{{provider::change}}" label="Provider">
-      <paper-listbox class="dropdown-content">
-        <paper-item>google</paper-item>
-        <paper-item>password</paper-item>
+      <paper-dropdown-menu  label="Use your login">
+    <paper-listbox attr-for-selected="name" selected="{{provider}}"  class="dropdown-content" >
+        <paper-item name="google" >Google</paper-item>
+        <paper-item name="password" >Password</paper-item>
       </paper-listbox>
     </paper-dropdown-menu>
-    <select value="{{provider::change}}">
-      <option>anonymous</option>
-      <option>facebook</option>
-      <option>github</option>
-      <option>google</option>
-      <option>twitter</option>
-      <option>password</option>
-    </select>
-    <em>Only 'anonymous', 'google', and 'password' are activated for demo Firebase account</em>
+
+    <!--<em>Only 'anonymous', 'google', and 'password' are activated for demo Firebase account</em>-->
     <br>
 
-    Login params (JSON):
-    <input value="{{params::input}}" id="params">
-    <em>Required by some provider types</em>
+    <!--Login params (JSON):-->
+    <!--<input value="{{params::input}}" id="params">-->
+    <!--<em>Required by some provider types</em>-->
     <br>
 
     <div hidden$="{{computePasswordHidden(provider)}}">
       <br><em>Password-specific options:</em><br>
-      <input placeholder="email" value="{{email::input}}">
-      <input placeholder="password" value="{{password::input}}">
-      <button on-tap="createUserHandler" disabled$="{{computeCreateUserDisabled(email, password)}}">Create user</button>
+      <paper-input placeholder="email" value="{{email::input}}"></paper-input>
+      <paper-input placeholder="password" value="{{password::input}}"></paper-input>
+      <paper-button class="text-right" raised on-tap="createUserHandler" disabled$="{{computeCreateUserDisabled(email, password)}}">Create user</paper-button>
       <br>
-      <input placeholder="new password" value="{{newPassword::input}}">
-      <button on-tap="changePasswordHandler" disabled$="{{computeChangePasswordDisabled(email, password, newPassword)}}">Change password</button>
-      <br>
-      <button on-tap="resetPasswordHandler" disabled$="{{computeResetPasswordDisabled(email, password)}}">Reset password</button>
-      <button on-tap="removeUserHandler" disabled$="{{computeRemoveUserDisabled(email, password)}}">Remove user</button>
+      <!--<input placeholder="new password" value="{{newPassword::input}}">-->
+      <!--<button on-tap="changePasswordHandler" disabled$="{{computeChangePasswordDisabled(email, password, newPassword)}}">Change password</button>-->
+      <!--<br>-->
+      <!--<button on-tap="resetPasswordHandler" disabled$="{{computeResetPasswordDisabled(email, password)}}">Reset password</button>-->
+      <!--<button on-tap="removeUserHandler" disabled$="{{computeRemoveUserDisabled(email, password)}}">Remove user</button>-->
     </div>
     <br>
     <div id="message">[[message]]</div>
@@ -79,7 +77,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     properties: {
       provider: {
         type: String,
-        value: 'anonymous'
+        value: 'google'
       },
       message: {
         type: String,
@@ -164,7 +162,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         return 'Logged in';
       }
       if (statusKnown) {
-        return 'Logged out';
+        return '';
       }
       return 'Unknown (checking status...)';
     }
