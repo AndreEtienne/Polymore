@@ -176,14 +176,38 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     computeLoginStatus: function(statusKnown, user) {
       if (statusKnown && user) {
         this.set('isLoggedIn',user.uid);
+        console.log(user);
         var ref = new Firebase("https://polymorefoot.firebaseio.com/User");
         var usersRef = ref.child(user.uid);
+
         usersRef.set({
           user :{
             uid: user.uid,
-            token: user.token
+            token: user.token,
+            username: ''
+          },
+            logged :{
+           counter: ''
           }
         });
+        if(user.google){
+          usersRef.update({
+          user :{
+            uid: user.uid,
+            token: user.token,
+            username: user.google.displayName
+          },
+            logged :{
+           counter: ''
+          }
+        });
+        }else{
+            usersRef.update({
+              logged:{
+                counter: '1'
+              }
+            })
+        }
         page.redirect(page.current);
         return 'Logged in';
       }
