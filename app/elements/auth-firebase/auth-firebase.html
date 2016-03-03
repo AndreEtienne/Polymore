@@ -78,7 +78,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         <!--<h3>Login status:</h3>-->
         {{computeLoginStatus(statusKnown, user)}}
-        {{usersnap}}
         <!--<h3>User ID:</h3>-->
         <!--<pre>{{user.uid}}</pre>-->
         <!--<pre>{{user.google.displayName}}</pre>-->
@@ -179,12 +178,26 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
       computeLoginStatus: function (statusKnown, user) {
         if (statusKnown && user) {
+
+
           this.set('isLoggedIn', user.uid);
+
+
           var usercode = new Firebase("https://polymorefoot.firebaseio.com/User/" + user.uid);
+
+
           usercode.once("value", function (snapshot) {
+
+
             var ref = new Firebase("https://polymorefoot.firebaseio.com/User");
+
+
             var usersRef = ref.child(user.uid);
+
+
             var userex = snapshot.exists();
+
+
             if (userex != true) {
               usersRef.set({
                 user: {
@@ -194,7 +207,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                   username: ''
                 },
                 logged: {
-                  counter: ''
+                  counter: '1'
                 }
               });
               if (user.google) {
@@ -207,16 +220,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
                   },
                   logged: {
-                    counter: ''
+                    counter: '1'
                   }
                 });
               } else {
-                usersRef.update({
-                  logged: {
-                    counter: '1'
-                  }
-                })
               }
+            }else{
+              var usercode = new Firebase("https://polymorefoot.firebaseio.com/User/" + user.uid+'/logged/counter');
+              usercode.once("value", function (snapshot) {
+                var counter = snapshot.val();
+                counter ++;
+                  var usercounter = new Firebase("https://polymorefoot.firebaseio.com/User/" + user.uid);
+                usercounter.update({
+                    logged:{
+                          counter: counter
+                      }
+                })
+              })
+
             }
           });
           page.redirect(page.current);
