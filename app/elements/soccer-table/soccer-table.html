@@ -24,6 +24,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         width: 100%;
       }
     </style>
+     <iron-ajax
+        id="current"
+        auto
+        url="http://api.football-data.org/v1/soccerseasons/394"
+        headers='{"X-Auth-Token": "2110d71eb42c40b8ba7ea34af91ae19e"}'
+        handle-as="json"
+        on-response="handleResponse"
+        last-response="{{currentmatch}}">
+    </iron-ajax>
     <iron-ajax
         id="soccer"
         auto
@@ -43,6 +52,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         on-response="handleResponse"
         last-response="{{fixtures}}">
     </iron-ajax>
+    {{CurrentMatchday(currentmatch)}}
     <paper-material class="cityData" elevation="3">
       <template is="dom-repeat" items="{{ajaxResponse.standing}}">
         <div class="layout horizontal">
@@ -72,11 +82,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     Polymer({
       is: 'soccer-table',
       properties: {
+        current:{
+          type: String,
+          value: 'hallo'
+        },
         mmatch:{
           type: Object,
           value: function(){
               return {
-                matchday: "20",
+                matchday: '2',
               }
         },
         notify: true
@@ -86,6 +100,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       handleResponse: function(){
       console.log('handleResponse');
       },
+      CurrentMatchday: function(currentmatch){
+        var currentMatch = currentmatch.currentMatchday;
+        console.log(currentMatch);
+         console.log(this.current);
+        this.current= {
+          value: currentMatch
+        }
+          console.log(this.current);
+
+
+      },
       UpdateMmatch: function(){
         var days  = document.getElementById("slider-match").value;
         console.log(days);
@@ -93,7 +118,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.mmatch = {
           matchday: days
         }
-      },
+      }
     });
   })();
   </script>
