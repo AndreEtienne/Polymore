@@ -83,7 +83,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           <a data-route="users" href="{{baseUrl}}users">
             <iron-icon icon="info"></iron-icon>
-            <span>      {{user.uid}} </span>
+            <span></span>
           </a>
 
           <a data-route="contact" href="{{baseUrl}}contact">
@@ -106,7 +106,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           <!-- Application name -->
           <div class="middle middle-container">
-            <div class="app-name">Polymore hallo {{user.google.displayName}}</div>
+            <div class="app-name">Polymore hallo {{user.google.displayName}} {{usersnap}}</div>
+            <img style="display: block;border-radius: 100%;height: 50px;width: 50px;" src="{{user.google.profileImageURL}}">
           </div>
 
           <!-- Application sub title -->
@@ -123,7 +124,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <auth-firebase></auth-firebase>
             </section>
             <section data-route="home" tabindex="-1">
-              hallo {{user.uid}}
               <my-ajaxelement></my-ajaxelement>
             </section>
             <section data-route="users" tabindex="-1">
