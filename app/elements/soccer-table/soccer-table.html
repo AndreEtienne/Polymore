@@ -1,0 +1,100 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="soccer-table">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      .cityData{
+        margin-bottom: 15px;
+        padding: 30px 24px;
+      }
+      .my-slider{
+        width: 100%;
+      }
+    </style>
+    <iron-ajax
+        id="soccer"
+        auto
+        url="http://api.football-data.org/v1/soccerseasons/394/leagueTable"
+        headers='{"X-Auth-Token": "2110d71eb42c40b8ba7ea34af91ae19e"}'
+        handle-as="json"
+        on-response="handleResponse"
+        last-response="{{ajaxResponse}}">
+    </iron-ajax>
+     <iron-ajax
+        id="soccerfix"
+        auto
+        url="http://api.football-data.org/v1/soccerseasons/394/fixtures"
+        headers='{"X-Auth-Token": "2110d71eb42c40b8ba7ea34af91ae19e"}'
+        params="{{mmatch}}"
+        handle-as="json"
+        on-response="handleResponse"
+        last-response="{{fixtures}}">
+    </iron-ajax>
+    <paper-material class="cityData" elevation="3">
+      <template is="dom-repeat" items="{{ajaxResponse.standing}}">
+        <div class="layout horizontal">
+          <div >{{item.position}}</div>
+          <div class="flex"><img style="display: block;height: 50px;width: 50px;" src="{{item.crestURI}}"></div>
+          <div class="flex">{{item.teamName}}</div>
+          <div class="flex">{{item.points}}</div>
+          </div>
+        </template>
+      </paper-material>
+     <paper-slider class="my-slider" id="slider-match" value="1" min="1"max="32" step="1" pin snaps max-markers="32" ></paper-slider>
+    <paper-button on-click="UpdateMmatch" raised>Serach</paper-button>
+    <paper-material class="cityData" elevation="3">
+      <template is="dom-repeat" id="menu" items="{{fixtures.fixtures}}">
+        <div class="layout horizontal">
+          <div>Matchday: {{item.matchday}}</div>
+          <div >Teams:{{item.homeTeamName}}:{{item.awayTeamName}}</div><br/>
+          </div>
+        <div>Ergebniss:{{item.result.goalsHomeTeam}}:{{item.result.goalsAwayTeam}} </div> <br/>
+        </template>
+      </paper-material>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'soccer-table',
+      properties: {
+        mmatch:{
+          type: Object,
+          value: function(){
+              return {
+                matchday: "20",
+              }
+        },
+        notify: true
+      }
+      },
+
+      handleResponse: function(){
+      console.log('handleResponse');
+      },
+      UpdateMmatch: function(){
+        var days  = document.getElementById("slider-match").value;
+        console.log(days);
+        document.getElementById("soccerfix").generateRequest();
+        this.mmatch = {
+          matchday: days
+        }
+      },
+    });
+  })();
+  </script>
+</dom-module>
