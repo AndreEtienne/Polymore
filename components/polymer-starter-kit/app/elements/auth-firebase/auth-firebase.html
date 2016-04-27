@@ -1,0 +1,253 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/firebase-element/firebase-auth.html">
+<link rel="import" href="../../bower_components/firebase-element/firebase.html">
+<link rel="import" href="../../bower_components/firebase-element/firebase-collection.html">
+<link rel="import" href="../../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/classes/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/paper-spinner/paper-spinner-styles.html">
+<link rel="import" href="../../bower_components/paper-spinner/paper-spinner-lite.html">
+<link rel="import" href="../../bower_components/paper-spinner/paper-spinner.html">
+
+
+<dom-module id="auth-firebase" is="dom-if" if="{{!isLoggedIn}}">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+
+    <div class="horizontal center-justified layout">
+      <paper-material style="width: 50%;">
+        <iron-meta key="fire-tok" value="{{isLoggedIn}}"></iron-meta>
+        <!--<firebase-collection id="base" location="https://polymorefoot.firebaseio.com/User" data="{{data}}" keys="{{key}}"></firebase-collection>-->
+        <firebase-auth id="firebaseLogin" user="{{user}}" status-known="{{statusKnown}}"
+                       location="https://polymorefoot.firebaseio.com" provider="{{provider}}" on-error="errorHandler"
+                       on-user-created="userSuccessHandler" on-password-changed="userSuccessHandler"
+                       on-password-reset="userSuccessHandler" on-user-removed="userSuccessHandler"></firebase-auth>
+        <paper-dropdown-menu label="Use your login">
+          <paper-listbox attr-for-selected="name" selected="{{provider}}" class="dropdown-content">
+            <paper-item name="google">Google</paper-item>
+            <paper-item name="password">Password</paper-item>
+          </paper-listbox>
+        </paper-dropdown-menu>
+        <paper-spinner active></paper-spinner>
+        <!--<em>Only 'anonymous', 'google', and 'password' are activated for demo Firebase account</em>-->
+        <br>
+
+        <!--Login params (JSON):-->
+        <!--<input value="{{params::input}}" id="params">-->
+        <!--<em>Required by some provider types</em>-->
+        <br>
+
+        <div hidden$="{{computePasswordHidden(provider)}}">
+          <br><em>Password-specific options:</em><br>
+          <paper-input placeholder="email" value="{{email::input}}"></paper-input>
+          <paper-input placeholder="password" value="{{password::input}}"></paper-input>
+          <paper-button class="text-right" raised on-tap="createUserHandler"
+                        disabled$="{{computeCreateUserDisabled(email, password)}}">Create user
+          </paper-button>
+          <br>
+          <!--<input placeholder="new password" value="{{newPassword::input}}">-->
+          <!--<button on-tap="changePasswordHandler" disabled$="{{computeChangePasswordDisabled(email, password, newPassword)}}">Change password</button>-->
+          <!--<br>-->
+          <!--<button on-tap="resetPasswordHandler" disabled$="{{computeResetPasswordDisabled(email, password)}}">Reset password</button>-->
+          <!--<button on-tap="removeUserHandler" disabled$="{{computeRemoveUserDisabled(email, password)}}">Remove user</button>-->
+        </div>
+        <br>
+        <div id="message">[[message]]</div>
+        <br>
+
+        <paper-button raised on-tap="login" hidden$="{{computeLoginHidden(statusKnown, user)}}">Login</paper-button>
+        <paper-button raised on-tap="logout" hidden$="{{computeLogoutHidden(statusKnown, user)}}">Logout</paper-button>
+
+        <!--<h3>Login status:</h3>-->
+        {{computeLoginStatus(statusKnown, user)}}
+        <!--<h3>User ID:</h3>-->
+        <!--<pre>{{user.uid}}</pre>-->
+        <!--<pre>{{user.google.displayName}}</pre>-->
+        <!--<img src="{{user.google.profileImageURL}}">-->
+      </paper-material>
+    </div>
+
+  </template>
+  <script>
+    Polymer({
+      is: 'auth-firebase',
+      properties: {
+        provider: {
+          type: String,
+          value: 'google'
+        },
+        message: {
+          type: String,
+          value: ''
+        },
+        email: {
+          type: String,
+          value: ''
+        },
+        password: {
+          type: String,
+          value: ''
+        },
+        user: {
+          type: Object,
+          value: null,
+          notify: true,
+          observer: "_userChange"
+
+        },
+        statusKnown: {
+          type: Boolean
+        }
+      },
+      login: function () {
+        var params;
+        try {
+          params = JSON.parse(this.params);
+        } catch (e) {
+          params = null;
+        }
+        if (this.provider == 'password') {
+          params = params || {};
+          params.email = this.email;
+          params.password = this.password;
+        }
+        this.$.firebaseLogin.login(params);
+      },
+      logout: function () {
+        this.$.firebaseLogin.logout();
+      },
+      errorHandler: function (e) {
+        this.message = 'Error: ' + e.detail.message;
+      },
+      userSuccessHandler: function (e) {
+        this.message = e.type + ' success!';
+      },
+      createUserHandler: function (e) {
+        this.$.firebaseLogin.createUser(this.email, this.password);
+      },
+      changePasswordHandler: function (e) {
+        this.$.firebaseLogin.changePassword(this.email, this.password, this.newPassword);
+      },
+      resetPasswordHandler: function (e) {
+        this.$.firebaseLogin.sendPasswordResetEmail(this.email);
+      },
+      removeUserHandler: function (e) {
+        this.$.firebaseLogin.removeUser(this.email, this.password);
+      },
+      computePasswordHidden: function (provider) {
+        return provider !== 'password';
+      },
+      computeCreateUserDisabled: function (email, password) {
+        return !email || !password;
+      },
+      computeChangePasswordDisabled: function (email, password, newPassword) {
+        return !email || !password || !newPassword;
+      },
+      computeResetPasswordDisabled: function (email, password) {
+        return !email || !password;
+      },
+      computeRemoveUserDisabled: function (email, password) {
+        return !email || !password;
+      },
+      computeLoginHidden: function (statusKnown, user) {
+        return !statusKnown || !!user;
+      },
+      computeLogoutHidden: function (statusKnown, user) {
+        return !statusKnown || !user;
+      },
+      _userChange: function (data) {
+        app.user = data;
+      },
+      computeLoginStatus: function (statusKnown, user) {
+        if (statusKnown && user) {
+
+
+          this.set('isLoggedIn', user.uid);
+
+
+          var usercode = new Firebase("https://polymorefoot.firebaseio.com/User/" + user.uid);
+
+
+          usercode.once("value", function (snapshot) {
+
+
+            var ref = new Firebase("https://polymorefoot.firebaseio.com/User");
+
+
+            var usersRef = ref.child(user.uid);
+
+
+            var userex = snapshot.exists();
+
+
+            if (userex != true) {
+              usersRef.set({
+                user: {
+                  uid: user.uid,
+                  token: user.token,
+                  picture: '',
+                  username: ''
+                },
+                logged: {
+                  counter: '1'
+                }
+              });
+              if (user.google) {
+                usersRef.update({
+                  user: {
+                    uid: user.uid,
+                    token: user.token,
+                    username: user.google.displayName,
+                    picture: user.google.cachedUserProfile.picture,
+
+                  },
+                  logged: {
+                    counter: '1'
+                  }
+                });
+              } else {
+              }
+            }else{
+              var usercode = new Firebase("https://polymorefoot.firebaseio.com/User/" + user.uid+'/logged/counter');
+              usercode.once("value", function (snapshot) {
+                var counter = snapshot.val();
+                counter ++;
+                  var usercounter = new Firebase("https://polymorefoot.firebaseio.com/User/" + user.uid);
+                usercounter.update({
+                    logged:{
+                          counter: counter
+                      }
+                })
+              })
+
+            }
+          });
+          page.redirect(page.current);
+          return 'Logged in';
+        }
+        if (statusKnown) {
+          return '';
+        }
+        return 'Unknown (checking status...)';
+      }
+    });
+  </script>
+</dom-module>
